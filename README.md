@@ -102,7 +102,7 @@ directory of the `Project Name` folder for the named build file.
 
 ## Issues
 
-- Report issues and enhancements in the [Jenkins issue tracker](https://issues.jenkins-ci.org/).
+- Report issues and enhancements in the [GitHub issue tracker](https://https://github.com/mrdailey99/provar-automation-jenkins/issues).
 - Additionally, all Provar users should raise a case with the Customer Success team via the Success Portal.  
 
 ## Contributing
