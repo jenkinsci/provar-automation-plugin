@@ -1,0 +1,38 @@
+<project default="runtests">
+	<property name="version" value="2.260.16.0"/>
+	<property environment="env"/>
+	<property name="provar.home" value="${env.PROVAR_HOME}"/>
+	<property name="testproject.home" value="${env.PROJECT_WORKSPACE}"/>
+	<property name="testproject.results" value="${testproject.home}/ANT/Results"/>
+	<property name="secrets.password" value="${ProvarSecretsPassword}"/>
+
+	<taskdef name="Provar-Compile" classname="com.provar.testrunner.ant.CompileTask" classpath="${provar.home}/ant/ant-provar.jar"/>
+	<taskdef name="Run-Test-Case" classname="com.provar.testrunner.ant.RunnerTask" classpath="${provar.home}/ant/ant-provar.jar;${provar.home}/ant/ant-provar-bundled.jar;${provar.home}/ant/ant-provar-sf.jar"/>
+	
+	<target name="runtests">
+	
+		<Provar-Compile provarHome="${provar.home}" projectPath="${testproject.home}"/>
+	
+		<Run-Test-Case provarHome="${provar.home}" 
+				projectPath="${testproject.home}" 
+				resultsPath="${testproject.results}" 
+				resultsPathDisposition="${env.RESULTS_PATH_SETTING}" 
+				testEnvironment="${env.ENVIRONMENT}" 
+				webBrowser="${env.BROWSER}" 
+				webBrowserConfiguration="Full Screen"
+				webBrowserProviderName="Desktop"
+				webBrowserDeviceName="Full Screen" 
+				salesforceMetadataCache="${env.CACHE_SETTING}" 
+				projectCachePath="${testproject.home}/.provarCaches"
+				testOutputlevel="${env.LOGGING_LEVEL}"
+				pluginOutputlevel="WARNING"
+				stopTestRunOnError="false"
+				secretsPassword="${secrets.password}"
+		>
+			<fileset dir="${testproject.home}/tests/${env.TEST_FOLDER}"/>
+
+		</Run-Test-Case>
+
+	</target>
+
+</project>

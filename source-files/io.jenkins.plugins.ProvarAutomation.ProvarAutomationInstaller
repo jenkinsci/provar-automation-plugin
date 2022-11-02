@@ -1,0 +1,8 @@
+{"list":[{"id":"latest","name":"latest","url":"https://provar-installers.s3-us-west-2.amazonaws.com/latest/Provar_ANT_latest.zip"},
+{"id":"2.8.0","name":"2.8.0","url":"https://provar-installers.s3-us-west-2.amazonaws.com/2.8.0/Provar_ANT_2.8.0.03.zip"},
+{"id":"2.7.2","name":"2.7.2","url":"https://provar-installers.s3-us-west-2.amazonaws.com/2.7.2/Provar_ANT_2.7.2.03.zip"},
+{"id":"2.7.0","name":"2.7.0","url":"https://provar-installers.s3-us-west-2.amazonaws.com/2.7.0/Provar_ANT_2.7.0.05.zip"},
+{"id":"2.6.3","name":"2.6.3","url":"https://provar-installers.s3-us-west-2.amazonaws.com/2.6.3/Provar_ANT_2.6.3.05.zip"},
+{"id":"2.6.2","name":"2.6.2","url":"https://provar-installers.s3-us-west-2.amazonaws.com/2.6.2/Provar_ANT_2.6.2.02.zip"},
+{"id":"2.6.0","name":"2.6.0","url":"https://provar-installers.s3-us-west-2.amazonaws.com/2.6.0/Provar_ANT_2.6.0.04.zip"}
+]}

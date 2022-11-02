@@ -1,0 +1,2 @@
+_extends: .github
+tag-template: provar-$NEXT_MINOR_VERSION

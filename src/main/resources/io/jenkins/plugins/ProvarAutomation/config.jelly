@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+The MIT License
+
+Copyright (c) 2011, CloudBees, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+    <j:if test="${size(descriptor.installations) != 0}">
+        <f:entry title="${%ProvarAutomationName Version}" description="${%ProvarAutomationNameDescr}" field="provarAutomationName">
+            <select class="setting-input" name="provarAutomation.provarAutomationName">
+                <j:forEach var="install" items="${descriptor.installations}">
+                    <f:option selected="${install.name == instance.provarAutomationName}" value="${install.name}">
+                        ${install.name}
+                    </f:option>
+                </j:forEach>
+            </select>
+        </f:entry>
+    </j:if>
+
+    <f:section title="Project Settings">
+        <f:entry title="${%ProjectName}" field="projectName"
+                 description="${%ProjectNameDescr}">
+            <f:textbox default="${descriptor.defaultProjectName}"/>
+        </f:entry>
+        <f:entry title="${%BuildFile}" field="buildFile"
+                 description="${%BuildFileDescr}">
+            <f:textbox default="${descriptor.defaultBuildFile}"/>
+        </f:entry>
+        <f:entry title="${%TestPlan}" field="testPlan"
+                 description="${%TestPlanDescr}">
+        <f:textbox default="${descriptor.defaultTestPlan}"/>
+        </f:entry>
+        <f:entry title="${%TestFolder}" field="testFolder"
+                 description="${%TestFolderDescr}">
+            <f:textbox default="${descriptor.defaultTestFolder}"/>
+        </f:entry>
+        <f:entry title="${%SecretsPassword}" field="secretsPassword"
+                 description="${%SecretsPasswordDescr}">
+            <f:password />
+        </f:entry>
+    </f:section>
+
+    <f:section title="Environment Settings">
+        <f:entry title="${%Browser}" field="browser"
+                 description="${%BrowserDescr}">
+            <f:select default="${descriptor.defaultBrowser}"/>
+        </f:entry>
+        <f:entry title="${%Environment}" field="environment"
+                 description="${%EnvironmentDescr}">
+            <f:textbox default="${descriptor.defaultEnvironment}"/>
+        </f:entry>
+    </f:section>
+
+    <f:advanced title="Cache/Results Settings">
+        <f:entry title="${%SalesforceMetadataCacheSetting}" field="salesforceMetadataCacheSetting"
+                 description="${%SalesforceMetadataCacheSettingDescr}">
+            <f:select default="${descriptor.defaultSalesforceMetadataCacheSetting}"/>
+        </f:entry>
+        <f:entry title="${%ResultsPathSetting}" field="resultsPathSetting"
+                 description="${%ResultsPathSettingDescr}">
+            <f:select default="${descriptor.defaultResultsPathSetting}"/>
+        </f:entry>
+    </f:advanced>
+
+</j:jelly>
