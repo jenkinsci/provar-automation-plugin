@@ -24,6 +24,7 @@
 
 package io.jenkins.plugins;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.tasks._ant.AntConsoleAnnotator;
 import hudson.*;
 import hudson.model.*;
@@ -39,7 +40,6 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
-import javax.annotation.Nonnull;
 import javax.servlet.ServletException;
 import java.io.*;
 import java.util.*;
@@ -51,14 +51,14 @@ public class ProvarAutomation extends Builder {
     /**
      * Identifies {@link ProvarAutomationInstallation} to be used.
      */
-    @Nonnull
+    @NonNull
     private final String provarAutomationName;
 
-    @Nonnull
+    @NonNull
     private final String buildFile;
-    @Nonnull
+    @NonNull
     private final String testPlan;
-    @Nonnull
+    @NonNull
     private final String testFolder;
     public enum Browser {
         // no one likes IE anyway
@@ -71,32 +71,32 @@ public class ProvarAutomation extends Builder {
     public enum ResultsPathSettings {
         Increment, Replace, Fail
     }
-    @Nonnull
+    @NonNull
     // default for running in a CI/CD environment is headless Chrome
     private final Browser browser;
-    @Nonnull
+    @NonNull
     // default test environment should be either empty or <default>
     private final String environment;
-    @Nonnull
+    @NonNull
     private final Secret secretsPassword;
-    @Nonnull
+    @NonNull
     private final SalesforceMetadataCacheSettings salesforceMetadataCacheSetting;
-    @Nonnull
+    @NonNull
     private final ResultsPathSettings resultsPathSetting;
-    @Nonnull
+    @NonNull
     private final String projectName;
 
     @DataBoundConstructor
-    public ProvarAutomation(@Nonnull String provarAutomationName,
-                            @Nonnull String buildFile,
-                            @Nonnull String testPlan,
-                            @Nonnull String testFolder,
-                            @Nonnull String environment,
-                            @Nonnull Browser browser,
-                            @Nonnull Secret secretsPassword,
-                            @Nonnull SalesforceMetadataCacheSettings salesforceMetadataCacheSetting,
-                            @Nonnull ResultsPathSettings resultsPathSetting,
-                            @Nonnull String projectName) {
+    public ProvarAutomation(@NonNull String provarAutomationName,
+                            @NonNull String buildFile,
+                            @NonNull String testPlan,
+                            @NonNull String testFolder,
+                            @NonNull String environment,
+                            @NonNull Browser browser,
+                            @NonNull Secret secretsPassword,
+                            @NonNull SalesforceMetadataCacheSettings salesforceMetadataCacheSetting,
+                            @NonNull ResultsPathSettings resultsPathSetting,
+                            @NonNull String projectName) {
         this.provarAutomationName = provarAutomationName;
         this.buildFile = Util.fixEmptyAndTrim(buildFile);
         this.testPlan = Util.fixEmptyAndTrim(testPlan);
@@ -121,31 +121,31 @@ public class ProvarAutomation extends Builder {
         return null;
     }
 
-    @Nonnull
+    @NonNull
     public String getProvarAutomationName() { return provarAutomationName; }
-    @Nonnull
+    @NonNull
     public String getBuildFile() { return buildFile; }
-    @Nonnull
+    @NonNull
     public String getTestPlan() {
         return testPlan;
     }
-    @Nonnull
+    @NonNull
     public String getTestFolder() {
         return testFolder;
     }
-    @Nonnull
+    @NonNull
     public String getEnvironment() { return environment; }
-    @Nonnull
+    @NonNull
     public Browser getBrowser() { return browser; }
-    @Nonnull
+    @NonNull
     public Secret getSecretsPassword() {
         return secretsPassword;
     }
-    @Nonnull
+    @NonNull
     public SalesforceMetadataCacheSettings getSalesforceMetadataCacheSetting() { return salesforceMetadataCacheSetting; }
-    @Nonnull
+    @NonNull
     public ResultsPathSettings getResultsPathSetting() { return resultsPathSetting; }
-    @Nonnull
+    @NonNull
     public String getProjectName() { return projectName; }
 
     @Override
@@ -166,7 +166,6 @@ public class ProvarAutomation extends Builder {
         listener.getLogger().println("Project Folder: " + projectName);
         listener.getLogger().println("Running the build file: " + buildFile);
         listener.getLogger().println("Executing test plan: " + testPlan);
-        // TODO: add check for test folder usage?
         listener.getLogger().println("Executing test folder: " + testFolder);
 
         listener.getLogger().println("Target environment: " + environment);
