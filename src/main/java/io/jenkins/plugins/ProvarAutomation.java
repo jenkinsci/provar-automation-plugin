@@ -162,7 +162,7 @@ public class ProvarAutomation extends Builder {
             buildFile += ".xml";
         }
 
-        listener.getLogger().println("Provar Automation CLI: " + provarAutomationName);
+        listener.getLogger().println("Provar Automation CLI Version: " + provarAutomationName);
         listener.getLogger().println("Project Folder: " + projectName);
         listener.getLogger().println("Running the build file: " + buildFile);
         listener.getLogger().println("Executing test plan: " + testPlan);
