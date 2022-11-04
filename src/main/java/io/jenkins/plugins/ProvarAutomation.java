@@ -25,26 +25,28 @@
 package io.jenkins.plugins;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
-import hudson.tasks._ant.AntConsoleAnnotator;
 import hudson.*;
 import hudson.model.*;
 import hudson.remoting.VirtualChannel;
 import hudson.slaves.NodeSpecific;
+import hudson.tasks.BuildStepDescriptor;
+import hudson.tasks.Builder;
+import hudson.tasks._ant.AntConsoleAnnotator;
 import hudson.tools.*;
 import hudson.util.*;
-import hudson.tasks.Builder;
-import hudson.tasks.BuildStepDescriptor;
 import jenkins.model.Jenkins;
 import jenkins.security.MasterToSlaveCallable;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
+import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
-import javax.servlet.ServletException;
-import java.io.*;
-import java.util.*;
-import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.StaplerRequest;
+
+import javax.servlet.ServletException;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 public class ProvarAutomation extends Builder {
 
