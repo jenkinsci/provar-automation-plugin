@@ -42,6 +42,7 @@ import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.verb.POST;
 
 import javax.servlet.ServletException;
 import java.io.File;
@@ -455,6 +456,7 @@ public class ProvarAutomation extends Builder {
         public static final SalesforceMetadataCacheSettings defaultSalesforceMetadataCacheSetting = SalesforceMetadataCacheSettings.Reuse;
         public static final ResultsPathSettings defaultResultsPathSetting = ResultsPathSettings.Increment;
 
+        @POST
         public ListBoxModel doFillBrowserItems() {
             ListBoxModel items = new ListBoxModel();
             if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
@@ -471,6 +473,7 @@ public class ProvarAutomation extends Builder {
             return items;
         }
 
+        @POST
         public ListBoxModel doFillSalesforceMetadataCacheSettingItems() {
             ListBoxModel items = new ListBoxModel();
             if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
@@ -482,6 +485,7 @@ public class ProvarAutomation extends Builder {
             return items;
         }
 
+        @POST
         public ListBoxModel doFillResultsPathSettingItems() {
             ListBoxModel items = new ListBoxModel();
             if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
@@ -592,6 +596,7 @@ public class ProvarAutomation extends Builder {
             /**
              * Checks if the PROVAR_HOME is valid.
              */
+            @POST
             public FormValidation doCheckHome(@QueryParameter File value) {
                 // this can be used to check the existence of a file on the server, so needs to be protected
                 if(!Jenkins.get().hasPermission(Jenkins.ADMINISTER))
