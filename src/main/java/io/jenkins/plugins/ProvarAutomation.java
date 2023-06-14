@@ -376,6 +376,9 @@ public class ProvarAutomation extends Builder {
 
         public FormValidation doCheckBuildFile(@QueryParameter String value)
                 throws IOException, ServletException {
+            if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
+                return FormValidation.ok();
+            }
             if (value.length() == 0)
                 return FormValidation.warning(Messages.ProvarAutomation_DescriptorImpl_warnings_missingBuildFile());
             return FormValidation.validateRequired(value);
@@ -383,6 +386,9 @@ public class ProvarAutomation extends Builder {
 
         public FormValidation doCheckTestPlan(@QueryParameter String value)
                 throws IOException, ServletException {
+            if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
+                return FormValidation.ok();
+            }
             if (value.length() == 0)
                 return FormValidation.warning(Messages.ProvarAutomation_DescriptorImpl_warnings_missingTestPlan());
 
@@ -391,6 +397,9 @@ public class ProvarAutomation extends Builder {
 
         public FormValidation doCheckTestFolder(@QueryParameter String value)
                 throws IOException, ServletException {
+            if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
+                return FormValidation.ok();
+            }
             if (value.length() == 0)
                 return FormValidation.warning(Messages.ProvarAutomation_DescriptorImpl_warnings_missingTestFolder());
 
@@ -399,6 +408,9 @@ public class ProvarAutomation extends Builder {
 
         public FormValidation doCheckSecretsPassword(@QueryParameter String value)
                 throws IOException, ServletException {
+            if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
+                return FormValidation.ok();
+            }
             if (value.length() == 0)
                 return FormValidation.warning(Messages.ProvarAutomation_DescriptorImpl_warnings_noSecretsPassword());
 
@@ -407,7 +419,9 @@ public class ProvarAutomation extends Builder {
 
         public FormValidation doCheckProjectName(@QueryParameter String value)
                 throws IOException, ServletException {
-
+            if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
+                return FormValidation.ok();
+            }
             if (value.length() == 0)
                 return FormValidation.ok(Messages.ProvarAutomation_DescriptorImpl_warnings_projectFolderMissing());
 
@@ -443,6 +457,9 @@ public class ProvarAutomation extends Builder {
 
         public ListBoxModel doFillBrowserItems() {
             ListBoxModel items = new ListBoxModel();
+            if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
+                return items;
+            }
             items.add("Chrome (Headless)", Browser.Chrome_Headless.name());
             items.add("Chrome", Browser.Chrome.name());
             items.add("Edge", Browser.Edge.name());
@@ -456,14 +473,20 @@ public class ProvarAutomation extends Builder {
 
         public ListBoxModel doFillSalesforceMetadataCacheSettingItems() {
             ListBoxModel items = new ListBoxModel();
+            if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
+                return items;
+            }
             items.add("Reuse", SalesforceMetadataCacheSettings.Reuse.name());
             items.add("Refresh", SalesforceMetadataCacheSettings.Refresh.name());
             items.add("Reload", SalesforceMetadataCacheSettings.Reload.name());
             return items;
         }
 
-        public ListBoxModel doFillResultsPathSettingItems(){
+        public ListBoxModel doFillResultsPathSettingItems() {
             ListBoxModel items = new ListBoxModel();
+            if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
+                return items;
+            }
             items.add("Increment", ResultsPathSettings.Increment.name());
             items.add("Replace", ResultsPathSettings.Replace.name());
             items.add("Fail", ResultsPathSettings.Fail.name());
