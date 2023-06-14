@@ -375,6 +375,7 @@ public class ProvarAutomation extends Builder {
             save();
         }
 
+        @POST
         public FormValidation doCheckBuildFile(@QueryParameter String value)
                 throws IOException, ServletException {
             if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
@@ -385,6 +386,7 @@ public class ProvarAutomation extends Builder {
             return FormValidation.validateRequired(value);
         }
 
+        @POST
         public FormValidation doCheckTestPlan(@QueryParameter String value)
                 throws IOException, ServletException {
             if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
@@ -396,6 +398,7 @@ public class ProvarAutomation extends Builder {
             return FormValidation.ok();
         }
 
+        @POST
         public FormValidation doCheckTestFolder(@QueryParameter String value)
                 throws IOException, ServletException {
             if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
@@ -407,6 +410,7 @@ public class ProvarAutomation extends Builder {
             return FormValidation.ok();
         }
 
+        @POST
         public FormValidation doCheckSecretsPassword(@QueryParameter String value)
                 throws IOException, ServletException {
             if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
@@ -418,6 +422,7 @@ public class ProvarAutomation extends Builder {
             return FormValidation.ok();
         }
 
+        @POST
         public FormValidation doCheckProjectName(@QueryParameter String value)
                 throws IOException, ServletException {
             if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
@@ -615,6 +620,7 @@ public class ProvarAutomation extends Builder {
                 return FormValidation.ok();
             }
 
+            @POST
             public FormValidation doCheckName(@QueryParameter String value) {
                 return FormValidation.validateRequired(value);
             }
