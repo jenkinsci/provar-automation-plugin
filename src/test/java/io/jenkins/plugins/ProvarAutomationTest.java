@@ -110,15 +110,15 @@ public class ProvarAutomationTest {
     }
 
     // TODO: Add test for license path and license file
-    @Test
-    public void testLicense() throws Exception {
-/*        FreeStyleProject project = jr.createFreeStyleProject();
-        ProvarAutomation builder = new ProvarAutomation(provarAutomationName, buildFile, testPlan, testFolder, environment, browser, secretsPassword, salesforceMetadataCacheSetting, resultsPathSetting, projectName, licensePath);
-        project.getBuildersList().add(builder);
-        FreeStyleBuild build = jr.assertBuildStatus(Result.FAILURE, project.scheduleBuild2(quietPeriod).get());
-        Path path = Paths.get("does-not-exist.txt");
-        assertFalse(Files.exists(path));*/
-    }
+//    @Test
+//    public void testLicense() throws Exception {
+///*        FreeStyleProject project = jr.createFreeStyleProject();
+//        ProvarAutomation builder = new ProvarAutomation(provarAutomationName, buildFile, testPlan, testFolder, environment, browser, secretsPassword, salesforceMetadataCacheSetting, resultsPathSetting, projectName, licensePath);
+//        project.getBuildersList().add(builder);
+//        FreeStyleBuild build = jr.assertBuildStatus(Result.FAILURE, project.scheduleBuild2(quietPeriod).get());
+//        Path path = Paths.get("does-not-exist.txt");
+//        assertFalse(Files.exists(path));*/
+//    }
 
     @Test
     public void testScriptedPipeline() throws Exception {
