@@ -53,10 +53,15 @@ THE SOFTWARE.
                  description="${%TestFolderDescr}">
             <f:textbox default="${descriptor.defaultTestFolder}"/>
         </f:entry>
+        <f:entry title="${%LicensePath}" field="licensePath"
+                 description="${%LicensePathDescr}">
+            <f:textbox default="${descriptor.defaultLicensePath}"/>
+        </f:entry>
         <f:entry title="${%SecretsPassword}" field="secretsPassword"
                  description="${%SecretsPasswordDescr}">
             <f:password />
         </f:entry>
+
     </f:section>
 
     <f:section title="Environment Settings">

@@ -50,6 +50,8 @@ public class ProvarAutomationTest {
     final String testPlan = "Regression";
     final String testFolder = "all";
     final String environment = "Dev";
+    // test is designed for windows OS
+    final String licensePath = "C:\\Users\\" +System.getProperty("user.name") + "\\Provar\\.licenses";
     final ProvarAutomation.Browser browser = ProvarAutomation.Browser.Safari;
     final Secret secretsPassword = Secret.fromString("ProvarSecretsPasssword");
     final ProvarAutomation.SalesforceMetadataCacheSettings salesforceMetadataCacheSetting = ProvarAutomation.SalesforceMetadataCacheSettings.Reload;
@@ -61,7 +63,7 @@ public class ProvarAutomationTest {
     @Test
     public void testConfigRoundtrip() throws Exception {
         FreeStyleProject p = jr.createFreeStyleProject();
-        p.getBuildersList().add(new ProvarAutomation(provarAutomationName, buildFile, testPlan, testFolder, environment, browser, secretsPassword, salesforceMetadataCacheSetting, resultsPathSetting, projectName));
+        p.getBuildersList().add(new ProvarAutomation(provarAutomationName, buildFile, testPlan, testFolder, environment, browser, secretsPassword, salesforceMetadataCacheSetting, resultsPathSetting, projectName, licensePath));
 
         WebClient webClient = jr.createWebClient();
         HtmlPage page = webClient.getPage(p,"configure");
@@ -81,6 +83,7 @@ public class ProvarAutomationTest {
         assertEquals(salesforceMetadataCacheSetting,pa.getSalesforceMetadataCacheSetting());
         assertEquals(resultsPathSetting,pa.getResultsPathSetting());
         assertEquals(projectName,pa.getProjectName());
+        assertEquals(licensePath, pa.getLicensePath());
     }
     // TODO: Add tests for validations of file paths, specifically the build file.
     // TODO: Add testing for downloading of Provar CLI, extraction, and env var set.
@@ -91,7 +94,7 @@ public class ProvarAutomationTest {
     @Test
     public void testBuild() throws Exception {
         FreeStyleProject project = jr.createFreeStyleProject();
-        ProvarAutomation builder = new ProvarAutomation(provarAutomationName, buildFile, testPlan, testFolder, environment, browser, secretsPassword, salesforceMetadataCacheSetting, resultsPathSetting, projectName);
+        ProvarAutomation builder = new ProvarAutomation(provarAutomationName, buildFile, testPlan, testFolder, environment, browser, secretsPassword, salesforceMetadataCacheSetting, resultsPathSetting, projectName, licensePath);
         project.getBuildersList().add(builder);
         FreeStyleBuild build = jr.assertBuildStatus(Result.FAILURE, project.scheduleBuild2(quietPeriod).get());
         jr.assertLogContains("Running the build file: " + buildFile, build);
@@ -103,6 +106,18 @@ public class ProvarAutomationTest {
         jr.assertLogContains("Results Path Setting: " + resultsPathSetting, build);
         jr.assertLogContains("Project Folder: " + projectName, build);
         jr.assertLogContains("Project is encrypted! Thank you for being secure.", build);
+        jr.assertLogContains("Execution license path being used: " + licensePath, build);
+    }
+
+    // TODO: Add test for license path and license file
+    @Test
+    public void testLicense() throws Exception {
+/*        FreeStyleProject project = jr.createFreeStyleProject();
+        ProvarAutomation builder = new ProvarAutomation(provarAutomationName, buildFile, testPlan, testFolder, environment, browser, secretsPassword, salesforceMetadataCacheSetting, resultsPathSetting, projectName, licensePath);
+        project.getBuildersList().add(builder);
+        FreeStyleBuild build = jr.assertBuildStatus(Result.FAILURE, project.scheduleBuild2(quietPeriod).get());
+        Path path = Paths.get("does-not-exist.txt");
+        assertFalse(Files.exists(path));*/
     }
 
     @Test
@@ -121,7 +136,8 @@ public class ProvarAutomationTest {
                 + "  secretsPassword: '" + secretsPassword + "',\n"
                 + "  salesforceMetadataCacheSetting: '" + salesforceMetadataCacheSetting + "',\n"
                 + "  resultsPathSetting: '" + resultsPathSetting + "',\n"
-                + "  projectName: '" + projectName + "'\n"
+                + "  projectName: '" + projectName + "',\n"
+                + "  licensePath: '" + licensePath + "'\n"
                 + "}";
         job.setDefinition(new CpsFlowDefinition(pipelineScript, true));
 

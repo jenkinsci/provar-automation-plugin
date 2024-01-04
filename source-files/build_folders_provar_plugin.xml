@@ -28,6 +28,7 @@
 				pluginOutputlevel="WARNING"
 				stopTestRunOnError="false"
 				secretsPassword="${secrets.password}"
+			    licensePath="${env.LICENSE_PATH}"
 		>
 			<fileset dir="${testproject.home}/tests/${env.TEST_FOLDER}"/>
 
