@@ -50,7 +50,7 @@ public class ProvarAutomationTest {
     final String testPlan = "Regression";
     final String testFolder = "all";
     final String environment = "Dev";
-    static String windowsLicensePath = "C:\\Users\\" + System.getProperty("user.name") + "\\Provar\\.licenses";
+    static String windowsLicensePath = "C:/Users/" + System.getProperty("user.name") + "/Provar/.licenses";
     static String unixLicensePath = System.getenv("HOME") + "/Provar/.licenses";
     static String osName = System.getProperty("os.name");
     final String licensePath = osName.contains("Windows") ? windowsLicensePath : unixLicensePath;
