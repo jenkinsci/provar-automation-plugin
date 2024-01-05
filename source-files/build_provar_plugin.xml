@@ -28,6 +28,7 @@
 				pluginOutputlevel="WARNING"
 				stopTestRunOnError="false"
 				secretsPassword="${secrets.password}"
+				licensePath="${env.LICENSE_PATH}"
 		>
 			<fileset id="testplan" dir="${testproject.home}/plans/${env.TEST_PLAN}"/>
 			<planFeature name="PDF" type="OUTPUT" enabled="true"/>

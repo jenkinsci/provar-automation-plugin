@@ -88,6 +88,8 @@ public class ProvarAutomation extends Builder {
     private final ResultsPathSettings resultsPathSetting;
     @NonNull
     private final String projectName;
+    @NonNull
+    private final String licensePath;
 
     @DataBoundConstructor
     public ProvarAutomation(@NonNull String provarAutomationName,
@@ -99,17 +101,19 @@ public class ProvarAutomation extends Builder {
                             @NonNull Secret secretsPassword,
                             @NonNull SalesforceMetadataCacheSettings salesforceMetadataCacheSetting,
                             @NonNull ResultsPathSettings resultsPathSetting,
-                            @NonNull String projectName) {
+                            @NonNull String projectName,
+                            @NonNull String licensePath) {
         this.provarAutomationName = provarAutomationName;
-        this.buildFile = Util.fixEmptyAndTrim(buildFile);
-        this.testPlan = Util.fixEmptyAndTrim(testPlan);
-        this.testFolder = Util.fixEmptyAndTrim(testFolder);
+        this.buildFile = Objects.requireNonNull(buildFile);
+        this.testPlan = Objects.requireNonNull(testPlan);
+        this.testFolder = Objects.requireNonNull(testFolder);
         this.browser = browser;
         this.environment = environment;
         this.secretsPassword = Objects.requireNonNull(secretsPassword);
         this.salesforceMetadataCacheSetting = salesforceMetadataCacheSetting;
         this.resultsPathSetting = resultsPathSetting;
         this.projectName = projectName;
+        this.licensePath = Objects.requireNonNull(licensePath);
     }
 
     /**
@@ -150,6 +154,8 @@ public class ProvarAutomation extends Builder {
     public ResultsPathSettings getResultsPathSetting() { return resultsPathSetting; }
     @NonNull
     public String getProjectName() { return projectName; }
+    @NonNull
+    public String getLicensePath() { return licensePath; }
 
     @Override
     public boolean perform(AbstractBuild<?,?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
@@ -170,7 +176,6 @@ public class ProvarAutomation extends Builder {
         listener.getLogger().println("Running the build file: " + buildFile);
         listener.getLogger().println("Executing test plan: " + testPlan);
         listener.getLogger().println("Executing test folder: " + testFolder);
-
         listener.getLogger().println("Target environment: " + environment);
         listener.getLogger().println("Target browser: " + browser);
         if (secretsPassword.getPlainText() != null) {
@@ -178,10 +183,14 @@ public class ProvarAutomation extends Builder {
         }
         listener.getLogger().println("Salesforce Metadata Cache Setting: " + salesforceMetadataCacheSetting);
         listener.getLogger().println("Results Path Setting: " + resultsPathSetting);
+        String licensePath = env.expand(this.licensePath);
+        if (licensePath.isEmpty()) {
+            licensePath = DescriptorImpl.defaultLicensePath;
+        }
+        listener.getLogger().println("Execution license path being used: " + licensePath);
 
         listener.getLogger().println("Workspace: " + workspaceFilePath);
         ArgumentListBuilder args = new ArgumentListBuilder();
-
 
         // Allow empty build parameters to be used in property replacements.
         // The env.override/overrideAll methods remove the property if it's an empty string.
@@ -212,14 +221,14 @@ public class ProvarAutomation extends Builder {
 
         // Some default/empty value handling for test plans/folders
         // ProvarProject/tests/ will run all tests
-        if (testPlan != null) {
+        if (!testPlan.isEmpty()) {
             env.put("TEST_PLAN", testPlan);
         } else {
             env.put("TEST_PLAN", " ");
         }
         if (testFolder.equalsIgnoreCase("All")) {
             env.put("TEST_FOLDER", "/");
-        } else if (testFolder != null) {
+        } else if (!testFolder.isEmpty()) {
             env.put("TEST_FOLDER", testFolder);
         } else {
             env.put("TEST_FOLDER", " ");
@@ -232,6 +241,7 @@ public class ProvarAutomation extends Builder {
         env.put("CACHE_SETTING", salesforceMetadataCacheSetting.name());
         env.put("RESULTS_PATH_SETTING", resultsPathSetting.name());
         env.put("PROJECT_NAME", projectName);
+        env.put("LICENSE_PATH", licensePath);
 
         VariableResolver<String> vr = new VariableResolver.ByMap<>(env);
         FilePath buildFilePath = buildFilePath(build.getModuleRoot(), buildFile, env.expand(projectName));
@@ -433,6 +443,18 @@ public class ProvarAutomation extends Builder {
 
             return FormValidation.ok();
         }
+        @POST
+        public FormValidation doCheckLicensePath(@QueryParameter String value)
+                throws IOException, ServletException {
+            if (!Jenkins.get().hasPermission(Jenkins.ADMINISTER)) {
+                return FormValidation.ok();
+            }
+            if (value.length() == 0) {
+                return FormValidation.warning(Messages.ProvarAutomation_DescriptorImpl_warnings_missingLicensePath());
+            }
+
+            return FormValidation.ok();
+        }
 
         @Override
         public boolean isApplicable(Class<? extends AbstractProject> aClass) {
@@ -450,7 +472,6 @@ public class ProvarAutomation extends Builder {
             return true;
         }
 
-
         public static final String defaultProvarAutomationName = "";
         public static final String defaultProjectName = "ProvarProject";
         public static final String defaultBuildFile = "build.xml";
@@ -458,6 +479,10 @@ public class ProvarAutomation extends Builder {
         public static final String defaultEnvironment = "";
         public static final String defaultTestPlan = "Regression";
         public static final String defaultTestFolder = "All";
+        static String windowsLicensePath = "C:\\Users\\" + System.getProperty("user.name") + "\\Provar\\.licenses";
+        static String unixLicensePath = System.getenv("HOME") + "/Provar/.licenses";
+        static String osName = System.getProperty("os.name");
+        public static final String defaultLicensePath = osName.contains("Windows") ? windowsLicensePath : unixLicensePath;
         public static final SalesforceMetadataCacheSettings defaultSalesforceMetadataCacheSetting = SalesforceMetadataCacheSettings.Reuse;
         public static final ResultsPathSettings defaultResultsPathSetting = ResultsPathSettings.Increment;
 
