@@ -10,7 +10,7 @@ In the future there will be additional browser installations, more parameters fo
 - In order to use this plugin, you will first need a working Provar Automation project checked into a valid version control system.
 - You will also need a properly configured build file. You'll find two examples in the `source-files` directory. One is for Test Plan configuration, the other for test folder(s).
 - It is always recommended that your Provar Automation project be encrypted prior to check in!
-- Minimum Jenkins version required is 2.387.3
+- Minimum Jenkins version required is 2.401.3
   - [Subject to change per Jenkins recommendation](https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/#changing-the-minimum-required-version)
 ### Installation
 - For this plugin to be used, a valid Provar Automation CLI Installation must be specified in the Jenkins `Global Tool Configuration`.
