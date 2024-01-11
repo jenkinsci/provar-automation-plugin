@@ -10,7 +10,7 @@ In the future there will be additional browser installations, more parameters fo
 - In order to use this plugin, you will first need a working Provar Automation project checked into a valid version control system.
 - You will also need a properly configured build file. You'll find two examples in the `source-files` directory. One is for Test Plan configuration, the other for test folder(s).
 - It is always recommended that your Provar Automation project be encrypted prior to check in!
-- Minimum Jenkins version required is 2.387.3
+- Minimum Jenkins version required is 2.401.3
   - [Subject to change per Jenkins recommendation](https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/#changing-the-minimum-required-version)
 ### Installation
 - For this plugin to be used, a valid Provar Automation CLI Installation must be specified in the Jenkins `Global Tool Configuration`.
@@ -63,12 +63,13 @@ _Browser Installations must be handled separately, this plugin assumes you will 
 **Build Step Configuration**
 ![](docs/images/build_step.png)
 **Project Settings**
-- **Provar Version**: Provar Installation to use. See above section. The version you select here will be used for the task itself.
+- **Provar Automation CLI Version**: Provar Installation to use. See above section. The version you select here will be used for the task itself.
 - **Project Name**: The project folder containing the Provar test project. Leave blank if the of your root repository contains the .testproject file. The project path must be relative to the Jenkins workspace directory.
 - **Build File**: Build file to use. If left blank, plugin will look for `build.xml` in the `ANT` directory. Otherwise, looks in the `ANT`
 directory of the `Project Name` folder for the named build file.
 - **Test Plan**: Test Plan to use. Plugin will look in the `plans` directory of the Provar Project folder for the named Test Plan. Full relative paths can be used (i.e. `Regression/Sales Cloud/Account`)
 - **Test Folder**: The Test Folder to include in the test run. Plugin will look in the `tests` directory of the Provar Automation Project for the folder. Full relative paths can be used (i.e. `Regression/Sales Cloud/Opportunity`)
+- **Execution License Path**: The folder containing the license file. Plugin will look in the $USER_HOME/Provar/.licenses folder by default.
 - **Secrets Password**: The Provar Secrets Password used to encrypt/access the Provar Project. This value is kept secret and masked in all logs.
 
 **Environment Settings**
