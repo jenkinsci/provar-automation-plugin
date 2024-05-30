@@ -1,4 +1,5 @@
 {"list":[{"id":"latest","name":"latest","url":"https://provar-installers.s3-us-west-2.amazonaws.com/latest/Provar_ANT_latest.zip"},
+{"id":"2.13.1.1","name":"2.13.1.1","url":"https://provar-installers.s3-us-west-2.amazonaws.com/2.13.1.1/Provar_ANT_2.13.1.1.zip"},
 {"id":"2.12.2","name":"2.12.2","url":"https://provar-installers.s3-us-west-2.amazonaws.com/2.12.2/Provar_ANT_2.12.2.zip"},
 {"id":"2.12.1","name":"2.12.1","url":"https://provar-installers.s3-us-west-2.amazonaws.com/2.12.1.1/Provar_ANT_2.12.1.1.zip"},
 {"id":"2.11.3","name":"2.11.3","url":"https://provar-installers.s3-us-west-2.amazonaws.com/2.11.3/Provar_ANT_2.11.3.11.zip"},
