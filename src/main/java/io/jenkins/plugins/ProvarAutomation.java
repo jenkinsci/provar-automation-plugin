@@ -480,7 +480,7 @@ public class ProvarAutomation extends Builder {
         public static final String defaultTestPlan = "Regression";
         public static final String defaultTestFolder = "All";
         static String windowsLicensePath = "C:\\Users\\" + System.getProperty("user.name") + "\\Provar\\.licenses";
-        static String unixLicensePath = System.getenv("HOME") + "/Provar/.licenses";
+        static String unixLicensePath = System.getProperty("user.home") + "/Provar/.licenses";
         static String osName = System.getProperty("os.name");
         public static final String defaultLicensePath = osName.contains("Windows") ? windowsLicensePath : unixLicensePath;
         public static final SalesforceMetadataCacheSettings defaultSalesforceMetadataCacheSetting = SalesforceMetadataCacheSettings.Reuse;
