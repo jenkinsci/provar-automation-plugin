@@ -34,44 +34,56 @@ import hudson.util.Secret;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.JenkinsRule.WebClient;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
-import static org.junit.Assert.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-public class ProvarAutomationTest {
+import static org.junit.jupiter.api.Assertions.*;
 
-    @Rule
-    public JenkinsRule jr = new JenkinsRule();
+@WithJenkins
+class ProvarAutomationTest {
 
-    final String buildFile = "build.xml";
-    final String testPlan = "Regression";
-    final String testFolder = "all";
-    final String environment = "Dev";
-    static String windowsLicensePath = "C:/Users/" + System.getProperty("user.name") + "/Provar/.licenses";
-    static String unixLicensePath = System.getenv("HOME") + "/Provar/.licenses";
-    static String osName = System.getProperty("os.name");
-    final String licensePath = osName.contains("Windows") ? windowsLicensePath : unixLicensePath;
-    final ProvarAutomation.Browser browser = ProvarAutomation.Browser.Safari;
-    final Secret secretsPassword = Secret.fromString("ProvarSecretsPasssword");
-    final ProvarAutomation.SalesforceMetadataCacheSettings salesforceMetadataCacheSetting = ProvarAutomation.SalesforceMetadataCacheSettings.Reload;
-    final ProvarAutomation.ResultsPathSettings resultsPathSetting = ProvarAutomation.ResultsPathSettings.Replace;
-    final String projectName = "Hackathon2022";
-    final String provarAutomationName = "";
-    final int quietPeriod = 5;
+    private static final String buildFile = "build.xml";
+    private static final String testPlan = "Regression";
+    private static final String testFolder = "all";
+    private static final String environment = "Dev";
+    private static final String windowsLicensePath = "C:/Users/" + System.getProperty("user.name") + "/Provar/.licenses";
+    private static final String unixLicensePath = System.getenv("HOME") + "/Provar/.licenses";
+    private static final String osName = System.getProperty("os.name");
+    private static final String licensePath = osName.contains("Windows") ? windowsLicensePath : unixLicensePath;
+    private static final ProvarAutomation.Browser browser = ProvarAutomation.Browser.Safari;
+    private static final Secret secretsPassword = Secret.fromString("ProvarSecretsPassword");
+    private static final ProvarAutomation.SalesforceMetadataCacheSettings salesforceMetadataCacheSetting = ProvarAutomation.SalesforceMetadataCacheSettings.Reload;
+    private static final ProvarAutomation.ResultsPathSettings resultsPathSetting = ProvarAutomation.ResultsPathSettings.Replace;
+    private static final String projectName = "Hackathon2022";
+    private static final String provarAutomationName = "";
+    private static final int quietPeriod = 5;
+
+    private JenkinsRule jr;
+
+    @BeforeEach
+    void setUp(JenkinsRule rule) {
+        jr = rule;
+    }
 
     @Test
-    public void testConfigRoundtrip() throws Exception {
+    void testConfigRoundtrip() throws Exception {
         FreeStyleProject p = jr.createFreeStyleProject();
         p.getBuildersList().add(new ProvarAutomation(provarAutomationName, buildFile, testPlan, testFolder, environment, browser, secretsPassword, salesforceMetadataCacheSetting, resultsPathSetting, projectName, licensePath));
 
-        WebClient webClient = jr.createWebClient();
-        HtmlPage page = webClient.getPage(p,"configure");
+        try (WebClient webClient = jr.createWebClient()) {
+            HtmlPage page = webClient.getPage(p, "configure");
 
-        HtmlForm form = page.getFormByName("config");
-        jr.submit(form);
+            HtmlForm form = page.getFormByName("config");
+            jr.submit(form);
+        }
 
         ProvarAutomation pa = p.getBuildersList().get(ProvarAutomation.class);
         assertNotNull(pa);
@@ -87,6 +99,7 @@ public class ProvarAutomationTest {
         assertEquals(projectName,pa.getProjectName());
         assertEquals(licensePath, pa.getLicensePath());
     }
+
     // TODO: Add tests for validations of file paths, specifically the build file.
     // TODO: Add testing for downloading of Provar CLI, extraction, and env var set.
     // TODO: Add testing for NOT downloading Provar CLI if tool is set or if we can locate a valid PROVAR_HOME
@@ -94,7 +107,7 @@ public class ProvarAutomationTest {
     // TODO: Add testing for failing gracefully if the Provar Version does not exist
 
     @Test
-    public void testBuild() throws Exception {
+    void testBuild() throws Exception {
         FreeStyleProject project = jr.createFreeStyleProject();
         ProvarAutomation builder = new ProvarAutomation(provarAutomationName, buildFile, testPlan, testFolder, environment, browser, secretsPassword, salesforceMetadataCacheSetting, resultsPathSetting, projectName, licensePath);
         project.getBuildersList().add(builder);
@@ -111,19 +124,19 @@ public class ProvarAutomationTest {
         jr.assertLogContains("Execution license path being used: " + licensePath, build);
     }
 
-    // TODO: Add test for license path and license file
-//    @Test
-//    public void testLicense() throws Exception {
-///*        FreeStyleProject project = jr.createFreeStyleProject();
-//        ProvarAutomation builder = new ProvarAutomation(provarAutomationName, buildFile, testPlan, testFolder, environment, browser, secretsPassword, salesforceMetadataCacheSetting, resultsPathSetting, projectName, licensePath);
-//        project.getBuildersList().add(builder);
-//        FreeStyleBuild build = jr.assertBuildStatus(Result.FAILURE, project.scheduleBuild2(quietPeriod).get());
-//        Path path = Paths.get("does-not-exist.txt");
-//        assertFalse(Files.exists(path));*/
-//    }
+    @Test
+    @Disabled("TODO: Add test for license path and license file")
+    void testLicense() throws Exception {
+        FreeStyleProject project = jr.createFreeStyleProject();
+        ProvarAutomation builder = new ProvarAutomation(provarAutomationName, buildFile, testPlan, testFolder, environment, browser, secretsPassword, salesforceMetadataCacheSetting, resultsPathSetting, projectName, licensePath);
+        project.getBuildersList().add(builder);
+        FreeStyleBuild build = jr.assertBuildStatus(Result.FAILURE, project.scheduleBuild2(quietPeriod).get());
+        Path path = Paths.get("does-not-exist.txt");
+        assertFalse(Files.exists(path));
+    }
 
     @Test
-    public void testScriptedPipeline() throws Exception {
+    void testScriptedPipeline() throws Exception {
         String agentLabel = "my-agent";
         jr.createOnlineSlave(Label.get(agentLabel));
         WorkflowJob job = jr.createProject(WorkflowJob.class, "test-scripted-pipeline");
