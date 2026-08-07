@@ -26,6 +26,7 @@ package io.jenkins.plugins;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.*;
+import hudson.Util;
 import hudson.model.*;
 import hudson.remoting.VirtualChannel;
 import hudson.slaves.NodeSpecific;
@@ -37,7 +38,6 @@ import hudson.util.*;
 import jenkins.model.Jenkins;
 import jenkins.security.MasterToSlaveCallable;
 import net.sf.json.JSONObject;
-import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
@@ -538,7 +538,7 @@ public class ProvarAutomation extends Builder {
         private transient String provarHome;
         @DataBoundConstructor
         public ProvarAutomationInstallation(String name, String home, List<? extends ToolProperty<?>> properties) {
-            super(name, launderHome(StringUtils.defaultString(home)), properties);
+            super(name, launderHome(Util.fixNull(home)), properties);
         }
 
         private static String launderHome(String home) {
